@@ -9,13 +9,14 @@ const int WIDTH = 1280;
 const int HEIGTH = 720;
 
 int main( int argc, char* argv[] ) {
-    SDL_Init( SDL_INIT_VIDEO );
+    SDL_Init( SDL_INIT_VIDEO  );
 
-    WindowRenderer renderWindow("Game Template", WIDTH, HEIGTH);
+    WindowRenderer renderWindow("Game", WIDTH, HEIGTH);
 
     SDL_Event windowEvent;
-    Entity Cross;
-    SDL_Texture* cross = renderWindow.LoadTexture("images/sprites/cross.png");
+    SDL_Texture* cross_tex = renderWindow.LoadTexture("images/sprites/cross.png");
+
+    Entity Cross(0, 0, cross_tex);
 
     while (true) {
         if (SDL_PollEvent(&windowEvent)) {
@@ -25,7 +26,7 @@ int main( int argc, char* argv[] ) {
         }
 
         renderWindow.ClearWindow();
-        renderWindow.Render(cross);
+        renderWindow.Render(Cross);
         renderWindow.Display();
     }
 

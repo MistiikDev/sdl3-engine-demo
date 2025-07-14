@@ -3,6 +3,7 @@
 #define WINDOW_RENDERER_H
 
 #include <SDL3/SDL.h>
+#include "Entity.h"
 
 class WindowRenderer {
     public: 
@@ -10,7 +11,7 @@ class WindowRenderer {
         
         SDL_Texture* LoadTexture(const char* filePath);
 
-        void Render(SDL_Texture* texture);
+        void Render(Entity& entity);
         void Display();
         void ClearWindow();
         void DestroyWindow();

@@ -7,10 +7,18 @@
 
 class Entity {
     public:
-        SDL_FRect* currentFrame;
+        Entity(int _x, int _y, SDL_Texture* _texture);
 
+        float getX();
+        float getY();
+
+        SDL_Texture* getTexture();
+        SDL_FRect* getCurrentFrame();
     private:
         double x, y;
+
+        SDL_FRect* currentFrame;
+        SDL_Texture* texture;
 };
 
 #endif

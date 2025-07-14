@@ -3,6 +3,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "WindowRenderer.h"
+#include "Entity.h"
 
 WindowRenderer::WindowRenderer(const char* _title, int _width, int _height) : window(NULL), renderer(NULL)
 {
@@ -31,20 +32,20 @@ void WindowRenderer::Display() {
     SDL_RenderPresent(this->renderer);
 }
 
-void WindowRenderer::Render(SDL_Texture* texture) {
+void WindowRenderer::Render(Entity& entity) {
     SDL_FRect src;
-    src.x = 0; 
-    src.y = 0;
-    src.h = texture->h;
-    src.w = texture->w;
+    src.x = entity.getCurrentFrame()->x; 
+    src.y = entity.getCurrentFrame()->y;
+    src.h = entity.getCurrentFrame()->h;
+    src.w = entity.getCurrentFrame()->w;
 
     SDL_FRect dst;
-    dst.x = 0; 
-    dst.y = 0;
-    dst.h = texture->h;
-    dst.w = texture->w;
+    dst.x = entity.getX(); 
+    dst.y = entity.getY();
+    dst.h = entity.getCurrentFrame()->h * 4;
+    dst.w = entity.getCurrentFrame()->w * 4;
 
-    SDL_RenderTexture(this->renderer, texture, &src, &dst);
+    SDL_RenderTexture(this->renderer, entity.getTexture(), &src, &dst);
 }
 
 void WindowRenderer::ClearWindow() {
