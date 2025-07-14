@@ -1,13 +1,9 @@
-#include <iostream>
-#include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
-
 #include "WindowRenderer.h"
 #include "Entity.h"
 
 WindowRenderer::WindowRenderer(const char* _title, int _width, int _height) : window(NULL), renderer(NULL)
 {
-    this->window = SDL_CreateWindow(_title, _width, _height, SDL_WINDOW_INPUT_FOCUS);
+    this->window = SDL_CreateWindow(_title, _width, _height, SDL_WINDOW_RESIZABLE);
 
     if (window == NULL) {
         std::cout << "Window failed to create : " << SDL_GetError() << std::endl;
@@ -32,18 +28,23 @@ void WindowRenderer::Display() {
     SDL_RenderPresent(this->renderer);
 }
 
+void WindowRenderer::Render(std::vector<Entity>& entities) {
+    for (Entity& e: entities) {
+        this->Render(e);
+    }
+}
+
 void WindowRenderer::Render(Entity& entity) {
     SDL_FRect src;
-    src.x = entity.getCurrentFrame()->x; 
-    src.y = entity.getCurrentFrame()->y;
-    src.h = entity.getCurrentFrame()->h;
-    src.w = entity.getCurrentFrame()->w;
+    src.h = entity.getEntityBounds()->h;
+    src.w = entity.getEntityBounds()->w;
 
     SDL_FRect dst;
-    dst.x = entity.getX(); 
-    dst.y = entity.getY();
-    dst.h = entity.getCurrentFrame()->h * 4;
-    dst.w = entity.getCurrentFrame()->w * 4;
+    dst.x = entity.getPosition().x;
+    dst.y = entity.getPosition().y;
+
+    dst.h = entity.getEntityBounds()->h;
+    dst.w = entity.getEntityBounds()->w;
 
     SDL_RenderTexture(this->renderer, entity.getTexture(), &src, &dst);
 }

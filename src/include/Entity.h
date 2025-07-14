@@ -2,22 +2,24 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <iostream>
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 
+#include "Math.h"
+
 class Entity {
     public:
-        Entity(int _x, int _y, SDL_Texture* _texture);
+        Entity(Vector2, SDL_Texture* _texture);
 
-        float getX();
-        float getY();
+        Vector2& getPosition();
 
         SDL_Texture* getTexture();
-        SDL_FRect* getCurrentFrame();
+        SDL_FRect* getEntityBounds();
     private:
-        double x, y;
+        Vector2& position;
 
-        SDL_FRect* currentFrame;
+        SDL_FRect* entityBounds;
         SDL_Texture* texture;
 };
 
